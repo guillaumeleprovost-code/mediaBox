@@ -1,24 +1,383 @@
+/* =========================================
+   0. VARIABLES (modifie les couleurs ici)
+   ========================================= */
+:root {
+    --violet: #6202B5;
+    --violet-fonce: #490187;
+    --violet-clair: #8e6cef;
+    --bleu-clair: #B3BAFF;
+    --lavande: #f1e6fb;
+
+    --document: #6202B5;
+    --document-fond: #f1e6fb;
+    --favori: #c2410c;
+    --favori-fond: #ffedd5;
+
+    --fond: #f5f3fc;
+    --carte: #ffffff;
+    --encre: #1e1b2e;
+    --texte: #3f3a56;
+    --texte-doux: #6b6785;
+    --trait: #e7e3f3;
+    --danger: #b91c1c;
+
+    --ombre: 0 1px 2px rgba(40, 10, 80, .06), 0 8px 24px rgba(40, 10, 80, .07);
+    --ombre-hover: 0 2px 4px rgba(40, 10, 80, .08), 0 16px 36px rgba(98, 2, 181, .16);
+}
+
+/* =========================================
+   1. BASE & FOND
+   ========================================= */
+* { box-sizing: border-box; }
 
 body {
-    background-color: #f0f2f5;
-    font-family: Arial, sans-serif;
-    padding: 20px;
+    margin: 0 auto;
+    max-width: 820px;
+    padding: 48px 20px 80px;
+    color: var(--texte);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    line-height: 1.65;
+    background:
+        radial-gradient(900px 380px at 50% -120px, #e3d4fb 0%, transparent 70%),
+        radial-gradient(500px 300px at 100% 20%, rgba(179, 186, 255, .35) 0%, transparent 70%),
+        var(--fond);
+    background-repeat: no-repeat;
+    -webkit-font-smoothing: antialiased;
 }
 
-
-.ressource {
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
+:focus-visible {
+    outline: 3px solid var(--bleu-clair);
+    outline-offset: 3px;
 }
 
-.ressource h2 {
-    color: #0066cc;
-    margin-top: 0;
-}
+/* =========================================
+   2. TITRE MediaBox
+   ========================================= */
 #titre {
-	text-align: center;
-	color: #6202B5;
+    position: relative;
+    margin: 0 0 56px;
+    padding-bottom: 22px;
+    text-align: center;
+    font-size: clamp(2.6rem, 9vw, 4.5rem);
+    font-weight: 900;
+    letter-spacing: 4px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    color: var(--violet);
+    background: linear-gradient(100deg, var(--violet-fonce), var(--violet) 40%, var(--violet-clair));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* petite barre décorative sous le titre */
+#titre::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 90px;
+    height: 6px;
+    transform: translateX(-50%);
+    border-radius: 99px;
+    background: linear-gradient(90deg, var(--violet), var(--bleu-clair));
+}
+
+h2 { color: var(--violet); }
+
+/* =========================================
+   3. CARTES DE RESSOURCES
+   ========================================= */
+.ressource {
+    --couleur: var(--document);
+    --couleur-fond: var(--document-fond);
+
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 22px;
+    padding: 26px 30px 26px 34px;
+    background: var(--carte);
+    border: 1px solid var(--trait);
+    border-radius: 18px;
+    box-shadow: var(--ombre);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.ressource.favori {
+    --couleur: var(--favori);
+    --couleur-fond: var(--favori-fond);
+}
+
+/* bande de couleur à gauche */
+.ressource::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 6px;
+    background: linear-gradient(180deg, var(--couleur), var(--violet-clair));
+}
+
+.ressource:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--ombre-hover);
+}
+
+.ressource h2,
+.ressource h3 {
+    margin: 0 0 10px;
+    padding-right: 90px;          /* laisse la place à l'ID */
+    color: var(--encre);
+    font-size: 1.45rem;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+}
+
+/* description (garde les retours à la ligne du fichier) */
+.ressource p {
+    margin: 0 0 8px;
+    color: var(--texte);
+    white-space: pre-line;
+}
+
+/* "ID : 1" devient une pastille en haut à droite */
+.ressource p:not([class]):nth-of-type(2) {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    margin: 0;
+    padding: 3px 12px;
+    background: var(--couleur-fond);
+    color: var(--couleur);
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .5px;
+    border-radius: 99px;
+}
+
+/* "Mots-clés : …" séparé par un pointillé */
+.ressource p:not([class]):nth-of-type(3) {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--trait);
+    color: var(--texte-doux);
+    font-size: .92rem;
+    font-style: italic;
+}
+
+/* classes facultatives (si tu les ajoutes un jour) */
+.badge {
+    display: inline-block;
+    padding: 3px 12px;
+    background: var(--couleur-fond);
+    color: var(--couleur);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+    border-radius: 99px;
+}
+
+.mots-cles { font-size: .92rem; font-style: italic; color: var(--texte-doux); }
+.info      { font-size: .85rem; color: var(--texte-doux); }
+
+hr { display: none; }
+
+/* =========================================
+   4. BOUTONS & LIENS D'ACTION
+   ========================================= */
+.ressource a,
+.bouton,
+button {
+    display: inline-block;
+    margin: 14px 8px 0 0;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--violet), var(--violet-clair));
+    color: #fff;
+    font-family: inherit;
+    font-size: .95rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease, background-color .2s, color .2s;
+}
+
+.ressource a:hover,
+.bouton:hover,
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(98, 2, 181, .28);
+}
+
+.ressource a:active,
+.bouton:active,
+button:active { transform: translateY(0); }
+
+/* Modifier : bouton à contour + icône (sans toucher au HTML) */
+.ressource a[href^="modifier"],
+.ressource a.secondaire,
+.secondaire {
+    background: transparent;
+    border-color: var(--violet);
+    color: var(--violet);
+}
+
+.ressource a[href^="modifier"]:hover,
+.ressource a.secondaire:hover,
+.secondaire:hover {
+    background: var(--lavande);
+    box-shadow: none;
+}
+
+.ressource a[href^="modifier"]::before { content: "\270E\00a0"; }
+
+/* Supprimer : rouge */
+.ressource a[href^="supprimer"],
+.ressource a.danger,
+.danger {
+    background: transparent;
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.ressource a[href^="supprimer"]:hover,
+.ressource a.danger:hover,
+.danger:hover {
+    background: var(--danger);
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(185, 28, 28, .25);
+}
+
+.ressource a[href^="supprimer"]::before { content: "\2715\00a0"; }
+
+button:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* lien secondaire dans un formulaire ("Annuler") */
+form a {
+    display: inline-block;
+    margin: 14px 0 0 8px;
+    padding: 10px 20px;
+    background: var(--trait);
+    color: var(--texte);
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 10px;
+}
+form a:hover { background: #d9d3ee; }
+
+/* =========================================
+   5. FILTRE (class="filtre" sur le <form>)
+   ========================================= */
+.filtre {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    padding: 16px 20px;
+    background: var(--carte);
+    border: 1px solid var(--trait);
+    border-radius: 16px;
+    box-shadow: var(--ombre);
+}
+.filtre input[type="text"] { flex: 1 1 220px; width: auto; margin-top: 0; }
+.filtre button, .filtre a  { margin: 0; }
+.filtre a { background: none; color: var(--violet); padding: 0 6px; }
+
+/* =========================================
+   6. FORMULAIRES (ajouter.php / modifier.php)
+   ========================================= */
+form label {
+    display: block;
+    margin-top: 18px;
+    color: var(--encre);
+    font-weight: 600;
+}
+form label.inline { display: inline-block; margin-right: 18px; font-weight: 500; }
+
+input[type="text"],
+input[type="url"],
+input[type="search"],
+select,
+textarea {
+    width: 100%;
+    margin-top: 6px;
+    padding: 11px 14px;
+    background: #faf9ff;
+    color: var(--encre);
+    font-family: inherit;
+    font-size: 1rem;
+    border: 1px solid #d6d0ea;
+    border-radius: 10px;
+    transition: border-color .2s, box-shadow .2s, background-color .2s;
+}
+
+textarea { min-height: 130px; resize: vertical; }
+
+input[type="file"] {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 12px;
+    background: #faf9ff;
+    border: 2px dashed #c4bce0;
+    border-radius: 10px;
+}
+
+input[type="radio"], input[type="checkbox"] { accent-color: var(--violet); }
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    background: #fff;
+    border-color: var(--violet);
+    box-shadow: 0 0 0 4px rgba(179, 186, 255, .5);
+}
+
+/* =========================================
+   7. MESSAGES
+   ========================================= */
+.erreur, .succes, .vide {
+    margin: 0 0 20px;
+    padding: 14px 18px;
+    border-left: 5px solid;
+    border-radius: 12px;
+}
+.erreur { background: #fee2e2; border-color: var(--danger); color: #7f1d1d; }
+.succes { background: #dcfce7; border-color: #15803d;      color: #14532d; }
+.vide   { background: var(--carte); border-color: var(--bleu-clair); color: var(--texte-doux); text-align: center; }
+
+/* =========================================
+   8. ANIMATION D'ENTRÉE & MOBILE
+   ========================================= */
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes apparition {
+        from { opacity: 0; transform: translateY(14px); }
+        to   { opacity: 1; transform: none; }
+    }
+    .ressource { animation: apparition .5s ease both; }
+    .ressource:nth-of-type(2) { animation-delay: .06s; }
+    .ressource:nth-of-type(3) { animation-delay: .12s; }
+    .ressource:nth-of-type(4) { animation-delay: .18s; }
+    .ressource:nth-of-type(5) { animation-delay: .24s; }
+    .ressource:nth-of-type(n+6) { animation-delay: .3s; }
+}
+
+@media (max-width: 600px) {
+    body { padding: 32px 14px 56px; }
+    #titre { margin-bottom: 40px; letter-spacing: 2px; }
+    .ressource { padding: 22px 20px 22px 24px; border-radius: 14px; }
+    .ressource h2, .ressource h3 { padding-right: 0; margin-top: 30px; }
+    .ressource p:not([class]):nth-of-type(2) { top: 18px; right: auto; left: 24px; }
+    .ressource a, .bouton, button { width: 100%; text-align: center; margin-right: 0; }
+    .filtre a { width: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+    .ressource:hover { transform: none; }
 }
