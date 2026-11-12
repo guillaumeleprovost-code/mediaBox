@@ -9,18 +9,19 @@ $ressources = lire();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Mes ressources</title>
+    <title>MediaBox</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
+	<h1 id="titre">MediaBox</h1>
     <?php foreach ($ressources as $res): ?>
+
         
         <div class="ressource">
             <h2><?php echo $res['titre']; ?></h2>
             <p><?php echo $res['description']; ?></p>
-            <p><strong>ID :</strong> <?php echo $res['id']; ?></p>
-            <p><strong>Mots-clés :</strong> <?php echo $res['mots-cles']; ?></p>
+            <p>ID : <?php echo $res['id']; ?></p>
+            <p>Mots-clés : <?php echo $res['mots-cles']; ?></p>
         </div>
         <hr>
 
